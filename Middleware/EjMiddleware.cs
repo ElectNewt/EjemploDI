@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using EjemploDI.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -19,6 +20,7 @@ namespace EjemploDI.Middleware
         {
             var logMessage = $"Middleware: {guidService.ResultadoGuid}";
             _logger.LogInformation(logMessage);
+            context.Items.Add("MiddlewareGuid", logMessage);
             await _next(context);
         }
     }

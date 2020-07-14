@@ -6,7 +6,6 @@ using System.Collections.Generic;
 namespace EjemploDI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class HomeController : ControllerBase
     {
         private readonly GuidService _guidService;
@@ -18,12 +17,19 @@ namespace EjemploDI.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [Route("")]
         public IActionResult Index()
         {
             var logMessage = $"Controller:{_guidService.ResultadoGuid}";
+            
             _logger.LogInformation(logMessage);
-            return Ok();
+            var messages = new List<string>
+            {
+                HttpContext.Items["MiddlewareGuid"].ToString(),
+                logMessage
+            };
+
+            return Ok(messages);
         }
     }
 }
